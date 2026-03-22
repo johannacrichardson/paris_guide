@@ -112,53 +112,53 @@
         }
 
         .card-header {
-            padding: 1.5rem 1.5rem 1rem;
+            padding: 1.1rem 1.3rem 0.75rem;
             flex: 1;
         }
 
         .card-badge {
             display: inline-block;
-            padding: 0.3rem 0.8rem;
+            padding: 0.2rem 0.7rem;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
         }
 
         .card-title {
             font-family: Georgia, serif;
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             color: #2c2c2c;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
         }
 
         .card-neighborhood {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #888;
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
         }
 
         .card-description {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #555;
-            line-height: 1.5;
-            margin-bottom: 1rem;
+            line-height: 1.45;
+            margin-bottom: 0.6rem;
         }
 
         .card-hours {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #999;
             margin-bottom: 0;
             font-style: italic;
         }
 
         .card-website {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #999;
             font-style: italic;
-            margin-bottom: 1rem;
+            margin-bottom: 0.6rem;
         }
 
         .card-website a {
@@ -172,50 +172,36 @@
         }
 
         .card-address {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #666;
             margin-bottom: 0;
-            padding: 0.75rem 0.75rem 0.4rem;
+            padding: 0.6rem 0.75rem 0.1rem;
             background: #faf8f5;
             border-radius: 4px 4px 0 0;
         }
 
         .card-metro {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #888;
-            padding: 0 0.75rem 0.75rem;
+            padding: 0 0.75rem 0.6rem;
             background: #faf8f5;
             border-radius: 0 0 4px 4px;
-            margin-bottom: 1rem;
-        }
-
-        .card-footer {
-            padding: 0 1.5rem 1.5rem;
+            margin-bottom: 0.6rem;
             display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .card-link {
-            flex: 1;
-            min-width: 150px;
-            padding: 0.6rem 1rem;
-            text-align: center;
-            border-radius: 4px;
+        .directions-inline {
+            font-size: 0.8rem;
+            color: #999;
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease;
+            white-space: nowrap;
         }
 
-.directions-link {
-            background: #5a7b8f;
-            color: #fff;
-            border: none;
-        }
-
-        .directions-link:hover {
-            background: #476575;
+        .directions-inline:hover {
+            color: #555;
         }
 
         footer {
@@ -425,6 +411,22 @@
             {id: 60, name: "La Samaritaine", neighborhood: "Pont-Neuf (1st arr.)", category: "Department Store", description: "Legendary 1870 Art Nouveau landmark reborn after a 16-year LVMH restoration — a stunning glass-topped atrium and monumental staircase overlooking the Seine.", address: "9 Rue de la Monnaie, 75001", hours: "Daily 10am–8pm", website: "samaritaine.com", image: "https://thepinklookbook.com/wp-content/uploads/2025/10/La-Samaritaine-The-Most-Beautiful-Department-Store-in-Paris.png", lat: 48.8553, lng: 2.3386, metro: "Pont Neuf (Line 7)"}
         ];
 
+        const metroLineColors = {
+            1: "#FFCE00", 2: "#0064B0", 3: "#9F9825", 4: "#C04191",
+            5: "#F28E42", 6: "#83C491", 7: "#F3A4BA", 8: "#CEADD2",
+            9: "#D5C900", 10: "#E3B32A", 11: "#8D5E2A", 12: "#00814F",
+            13: "#98D4E2", 14: "#662483"
+        };
+        function formatMetro(metroStr) {
+            const stationMatch = metroStr.match(/^(.+?)\s*\(Line/);
+            const station = stationMatch ? stationMatch[1] : metroStr;
+            const lineNums = [...metroStr.matchAll(/\d+/g)].map(m => parseInt(m[0]));
+            const coloredNums = lineNums.map(n =>
+                `<span style="display:inline-flex;align-items:center;justify-content:center;background:${metroLineColors[n]||'#888'};color:${[1,9,10,13].includes(n)?'#333':'#fff'};font-weight:700;font-size:0.7rem;width:1.15rem;height:1.15rem;border-radius:50%;line-height:1;">${n}</span>`
+            ).join(' ');
+            return `Ⓜ ${coloredNums} ${station}`;
+        }
+
         const categoryColors = {
             "Fashion": { dot: "#c45a3c", badge: "#f0d8cf", text: "#8a3020" },
             "Beauty": { dot: "#b44d7e", badge: "#f0cfdf", text: "#7a2850" },
@@ -473,10 +475,7 @@
                         <p class="card-website"><a href="https://${shop.website}" target="_blank">Website</a></p>
                     </div>
                     <div class="card-address">${shop.address}</div>
-                    <div class="card-metro">Ⓜ ${shop.metro}</div>
-                    <div class="card-footer">
-                        <a href="https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking" target="_blank" class="card-link directions-link">Directions</a>
-                    </div>
+                    <div class="card-metro"><span>${formatMetro(shop.metro)}</span><a href="https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking" target="_blank" class="directions-inline">Directions →</a></div>
                 `;
                 card.addEventListener('click', () => {
                     document.querySelectorAll('.card').forEach(c => c.classList.remove('highlighted'));
