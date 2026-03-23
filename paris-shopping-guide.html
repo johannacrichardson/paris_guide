@@ -84,6 +84,24 @@
             border-color: #2c2c2c;
         }
 
+        .suggest-cta {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #999;
+            font-style: italic;
+            margin: 0.1rem 0 1.5rem;
+        }
+
+        .suggest-cta a {
+            color: #5a6b7a;
+            text-decoration: underline;
+            transition: color 0.2s ease;
+        }
+
+        .suggest-cta a:hover {
+            color: #333;
+        }
+
         .cards-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -305,7 +323,7 @@
             }
 
             .filters {
-                justify-content: flex-start;
+                justify-content: center;
                 gap: 0.5rem;
             }
 
@@ -415,11 +433,12 @@
             <button class="filter-btn" data-category="Stationery">Stationery</button>
             <button class="filter-btn" data-category="Vintage">Vintage</button>
         </div>
+        <p class="suggest-cta">Know a fab place? <a href="#suggestion-box" onclick="document.getElementById('suggestion-box').scrollIntoView({behavior:'smooth'}); return false;">Tell me about it.</a></p>
 
         <div class="cards-container" id="cards-container"></div>
     </div>
 
-    <div class="suggestion-box">
+    <div class="suggestion-box" id="suggestion-box">
         <h2 class="suggestion-title">Know a great shop?</h2>
         <p class="suggestion-subtitle">Suggest a place to add to the guide.</p>
         <form action="https://formspree.io/f/mnjgkbpj" method="POST" class="suggestion-form" id="suggestion-form">
