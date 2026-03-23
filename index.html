@@ -208,6 +208,78 @@
             color: #555;
         }
 
+        .suggestion-box {
+            max-width: 500px;
+            margin: 3rem auto 0;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .suggestion-title {
+            font-family: Georgia, serif;
+            font-size: 1.2rem;
+            color: #2c2c2c;
+            margin-bottom: 0.2rem;
+        }
+
+        .suggestion-subtitle {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        .suggestion-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .suggestion-input {
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #d0ccc5;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: system-ui, sans-serif;
+            background: #fff;
+            color: #2c2c2c;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .suggestion-input:focus {
+            border-color: #5a6b7a;
+        }
+
+        .suggestion-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .suggestion-submit {
+            padding: 0.5rem 1.5rem;
+            background: #2c2c2c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            align-self: flex-start;
+            margin: 0 auto;
+        }
+
+        .suggestion-submit:hover {
+            background: #444;
+        }
+
+        .suggestion-thanks {
+            font-size: 0.9rem;
+            color: #6b8f47;
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
         footer {
             background: #fff;
             padding: 2rem 1rem;
@@ -345,6 +417,17 @@
         </div>
 
         <div class="cards-container" id="cards-container"></div>
+    </div>
+
+    <div class="suggestion-box">
+        <h2 class="suggestion-title">Know a great shop?</h2>
+        <p class="suggestion-subtitle">Suggest a place to add to the guide.</p>
+        <form action="https://formspree.io/f/mnjgkbpj" method="POST" class="suggestion-form" id="suggestion-form">
+            <textarea name="suggestion" placeholder="Shop name(s)" required class="suggestion-input suggestion-textarea"></textarea>
+            <input type="text" name="name" placeholder="Submitted by" required class="suggestion-input">
+            <button type="submit" class="suggestion-submit">Submit</button>
+        </form>
+        <p class="suggestion-thanks" id="suggestion-thanks" style="display:none;">Thanks for your suggestion!</p>
     </div>
 
     <button class="back-to-top" id="back-to-top" title="Back to top">↑</button>
@@ -547,6 +630,22 @@
         });
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        const suggestionForm = document.getElementById('suggestion-form');
+        suggestionForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = new FormData(suggestionForm);
+            fetch(suggestionForm.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            }).then(response => {
+                if (response.ok) {
+                    suggestionForm.style.display = 'none';
+                    document.getElementById('suggestion-thanks').style.display = 'block';
+                }
+            });
         });
     </script>
 </body>
